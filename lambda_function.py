@@ -40,5 +40,9 @@ def lambda_handler(event,context):
     bucket.upload_file('/tmp/test.csv', file_name)
     # sns to deliver file processed request
     sns = boto3.client('sns')
-    response = sns.publish( TopicArn=os.getenv('TopicArn'), Message="File {} has been formatted and filtered. Its been stored in {} as {}".format(input_key,bucket_name,file_name))
+    print(os.getenv('TopicARN'))
+    topicARN = os.getenv('TopicARN')
+    response = sns.publish(TopicArn=topicARN, 
+    Message="File {} has been formatted and filtered. Its been stored in {} as {}".format(input_key,bucket_name,file_name)
+    )
     
