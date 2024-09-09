@@ -34,13 +34,11 @@ def lambda_handler(event,context):
     except:
         file_name = 'processed_data/processed_data.csv'
     lambda_path = '/tmp/test.csv'
-    bucket_name = os.getenv('output_bucket')
+    bucket_name = os.getenv('outputBucket')
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(bucket_name)
     bucket.upload_file('/tmp/test.csv', file_name)
     # sns to deliver file processed request
     sns = boto3.client('sns')
-    response = sns.publish(
-    TopicArn=os.getenv('TopicArn'),
-    Message="File {} has been formatted and filtered. Its been stored in {} as {}".format(input_key,bucket_name,file_name)
-    )
+    response = sns.publish( TopicArn=os.getenv('TopicArn'), Message="File {} has been formatted and filtered. Its been stored in {} as {}".format(input_key,bucket_name,file_name))
+    
