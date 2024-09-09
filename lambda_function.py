@@ -33,14 +33,14 @@ def lambda_handler(event,context):
         file_name = 'processed_data/{}_processed_data.csv'.format(date_var)
     except:
         file_name = 'processed_data/processed_data.csv'
-        lambda_path = '/tmp/test.csv'
-        bucket_name = os.getenv('output_bucket')
-        s3 = boto3.resource('s3')
-        bucket = s3.Bucket(bucket_name)
-        bucket.upload_file('/tmp/test.csv', file_name)
-        # sns to deliver file processed request
-        sns = boto3.client('sns')
-        response = sns.publish(
-        TopicArn=os.getenv('TopicArn'),
-        Message="File {} has been formatted and filtered. Its been stored in {} as {}".format(input_key,bucket_name,file_name)
-        )
+    lambda_path = '/tmp/test.csv'
+    bucket_name = os.getenv('output_bucket')
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(bucket_name)
+    bucket.upload_file('/tmp/test.csv', file_name)
+    # sns to deliver file processed request
+    sns = boto3.client('sns')
+    response = sns.publish(
+    TopicArn=os.getenv('TopicArn'),
+    Message="File {} has been formatted and filtered. Its been stored in {} as {}".format(input_key,bucket_name,file_name)
+    )
